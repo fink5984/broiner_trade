@@ -5,7 +5,9 @@ backend/.venv
 **/__pycache__
 **/node_modules
 frontend/dist
-fxcm_bridge
+fxcm_bridge/runtime
+fxcm_bridge/History
+fxcm_bridge/ca-bundle.pem
 tools
 *.log
 *.pkl

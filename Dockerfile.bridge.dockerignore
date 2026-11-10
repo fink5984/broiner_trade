@@ -1,9 +1,0 @@
-.git
-.env
-backend
-frontend
-tools
-fxcm_bridge/runtime
-fxcm_bridge/History
-**/__pycache__
-*.log
