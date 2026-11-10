@@ -242,3 +242,25 @@ def backtest(req: BtRequest, db: Session = Depends(get_session)):
             "trades": [dataclasses.asdict(t) | {"entry_time": t.entry_time.isoformat(),
                                                 "exit_time": t.exit_time.isoformat()} for t in res["trades"]],
             "rejected_by_risk": res["rejected_by_risk"]}
+
+
+# ---- Serve the built UI (production image only). API routes above take precedence. ----
+from pathlib import Path as _Path
+from fastapi.staticfiles import StaticFiles as _StaticFiles
+from starlette.exceptions import HTTPException as _StarletteHTTPException
+
+_DIST = _Path(__file__).resolve().parents[2] / "frontend" / "dist"
+
+
+class _SPAFiles(_StaticFiles):
+    async def get_response(self, path, scope):
+        try:
+            return await super().get_response(path, scope)
+        except _StarletteHTTPException as e:
+            if e.status_code == 404 and not path.replace("\\", "/").startswith("api/"):
+                return await super().get_response("index.html", scope)   # client-side routes (/trades, /settings ...)
+            raise
+
+
+if _DIST.is_dir():
+    app.mount("/", _SPAFiles(directory=_DIST, html=True), name="ui")

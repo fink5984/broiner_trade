@@ -1,0 +1,11 @@
+.git
+.env
+backend/.env
+backend/.venv
+**/__pycache__
+**/node_modules
+frontend/dist
+fxcm_bridge
+tools
+*.log
+*.pkl
