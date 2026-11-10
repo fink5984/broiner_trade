@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (RGB channels) ---------- */
+:root {
+  --c-bg: 243 245 249;
+  --c-surface: 255 255 255;
+  --c-surface2: 247 249 252;
+  --c-border: 226 231 240;
+  --c-text: 15 23 42;
+  --c-muted: 100 113 136;
+  --c-accent: 37 99 235;
+  --c-profit: 5 150 105;
+  --c-loss: 220 38 76;
+  --c-warn: 202 120 8;
+  --c-info: 8 128 168;
+  color-scheme: light;
+}
+
+.dark {
+  --c-bg: 7 10 17;
+  --c-surface: 12 16 26;
+  --c-surface2: 17 23 36;
+  --c-border: 30 38 56;
+  --c-text: 226 232 243;
+  --c-muted: 130 143 166;
+  --c-accent: 96 150 255;
+  --c-profit: 38 200 140;
+  --c-loss: 247 84 112;
+  --c-warn: 240 168 48;
+  --c-info: 64 190 240;
+  color-scheme: dark;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    font-feature-settings: 'kern';
+  }
+  .dark body {
+    background-image: radial-gradient(1200px 600px at 100% -10%, rgb(var(--c-accent) / 0.08), transparent 60%);
+    background-attachment: fixed;
+  }
+  ::selection { background: rgb(var(--c-accent) / 0.25); }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--c-border)) transparent; }
+  :focus-visible { outline: 2px solid rgb(var(--c-accent) / 0.6); outline-offset: 2px; }
+}
+
+@layer components {
+  .num { @apply font-mono; font-variant-numeric: tabular-nums; unicode-bidi: isolate; letter-spacing: -0.01em; }
+
+  .input {
+    @apply h-10 w-full rounded-xl border border-line bg-surface2 px-3 text-sm text-fg transition
+      placeholder:text-muted/70 hover:border-muted/40 focus:border-accent focus:bg-surface focus:outline-none focus:ring-4 focus:ring-accent/15
+      disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  textarea.input { @apply h-auto py-2.5 leading-relaxed; }
+
+  .tbl { @apply w-full border-separate border-spacing-0 text-sm; }
+  .tbl thead th {
+    @apply sticky top-0 whitespace-nowrap border-b border-line bg-surface2 px-4 py-2.5 text-start text-[11px] font-semibold uppercase tracking-wide text-muted;
+  }
+  .tbl tbody td { @apply whitespace-nowrap border-b border-line/60 px-4 py-3; }
+  .tbl tbody tr { @apply transition-colors; }
+  .tbl tbody tr:hover td { @apply bg-fg/[0.025]; }
+  .tbl tbody tr:last-child td { @apply border-b-0; }
+}
